@@ -1,75 +1,103 @@
-document.addEventListener('DOMContentLoaded', function() {
-    let celsius =  document.getElementById('celsius'); 
-    let fahrenheit =  document.getElementById('fahrenheit'); 
-    let kelvin =  document.getElementById('kelvin'); 
-    let Reaumur =  document.getElementById('Reaumur');
-    let Rankine = document.getElementById('Rankine');
-    celsius.oninput = function () { 
-        let f = (parseFloat(celsius.value) * 9) / 5 + 32; 
-        fahrenheit.value = parseFloat(f.toFixed(2)); 
+document.addEventListener('DOMContentLoaded', function () {
+  // ---- Element References ----
+  const celsius = document.getElementById('celsius');
+  const fahrenheit = document.getElementById('fahrenheit');
+  const kelvin = document.getElementById('kelvin');
+  const rankine = document.getElementById('rankine');
+  const reaumur = document.getElementById('reaumur');
 
-        let k = (parseFloat(celsius.value) + 273.15); 
-        kelvin.value = parseFloat(k.toFixed(2)); 
+  // ---- Hamburger Menu ----
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mainNav = document.getElementById('main-nav');
 
-        let R = (parseFloat(celsius.value) * 9) / 5 + 491.67;
-        Rankine.value = parseFloat(R.toFixed(2)); 
+  // Create overlay element for mobile nav
+  const overlay = document.createElement('div');
+  overlay.classList.add('nav-overlay');
+  document.body.appendChild(overlay);
 
-        let Re = (parseFloat(celsius.value) * 0.8);
-        Reaumur.value = parseFloat(Re.toFixed(2));
-    } 
-    fahrenheit.oninput = function () { 
-        let c = ((parseFloat( 
-            fahrenheit.value) - 32) * 5) / 9; 
-        celsius.value = parseFloat(c.toFixed(2)); 
+  function toggleMenu() {
+    const isOpen = mainNav.classList.toggle('open');
+    hamburgerBtn.classList.toggle('active');
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
+    overlay.classList.toggle('active');
 
-        let k = (parseFloat( 
-            fahrenheit.value) - 32) * 5 / 9 + 273.15; 
-        kelvin.value = parseFloat(k.toFixed(2)); 
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
 
-        let R = (parseFloat(fahrenheit.value)) + 459.67;
-        Rankine.value = parseFloat(R.toFixed(2));
+  function closeMenu() {
+    mainNav.classList.remove('open');
+    hamburgerBtn.classList.remove('active');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
-        let Re = (parseFloat(fahrenheit.value) - 32)/2.25;
-        Reaumur.value = parseFloat(Re.toFixed(2));
-    } 
-    kelvin.oninput = function () { 
-        let f = (parseFloat( 
-            kelvin.value) - 273.15) * 9 / 5 + 32; 
-        fahrenheit.value = parseFloat(f.toFixed(2)); 
+  hamburgerBtn.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
 
-        let c = (parseFloat(kelvin.value) - 273.15); 
-        celsius.value = parseFloat(c.toFixed(2)); 
+  // Close menu when a nav link is clicked
+  mainNav.querySelectorAll('.nav-link').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
 
-        let R = parseFloat(kelvin.value) * 1.8;
-        Rankine.value = parseFloat(R.toFixed(2));
+  // Close menu on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
 
-        let Re = (parseFloat(kelvin.value) - 273.15) / 1.25;
-        Reaumur.value = parseFloat(Re.toFixed(2));
-    } 
-    Rankine.oninput = function () { 
-            let f = (parseFloat(Rankine.value) - 459.67); 
-            fahrenheit.value = parseFloat(f.toFixed(2)); 
+  // Close menu if window resizes past mobile breakpoint
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 640) closeMenu();
+  });
 
-            let c = (parseFloat(Rankine.value) - 491.67)/1.8; 
-            celsius.value = parseFloat(c.toFixed(2));
+  // ---- Temperature Conversion Logic ----
+  function round(val) {
+    return parseFloat(val.toFixed(2));
+  }
 
-            let k = parseFloat(Rankine.value) / 1.8;
-            kelvin.value = parseFloat(k.toFixed(2));
+  celsius.oninput = function () {
+    const c = parseFloat(celsius.value);
+    if (isNaN(c)) { fahrenheit.value = kelvin.value = rankine.value = reaumur.value = ''; return; }
+    fahrenheit.value = round((c * 9) / 5 + 32);
+    kelvin.value = round(c + 273.15);
+    rankine.value = round((c * 9) / 5 + 491.67);
+    reaumur.value = round(c * 0.8);
+  };
 
-            let Re = (parseFloat(Rankine.value) - 491.67)/2.25; 
-            Reaumur.value = parseFloat(Re.toFixed(2));
-    }
-    Reaumur.oninput = function () { 
-        let f = (parseFloat(Reaumur.value) * 2.25) + 32; 
-        fahrenheit.value = parseFloat(f.toFixed(2)); 
+  fahrenheit.oninput = function () {
+    const f = parseFloat(fahrenheit.value);
+    if (isNaN(f)) { celsius.value = kelvin.value = rankine.value = reaumur.value = ''; return; }
+    celsius.value = round(((f - 32) * 5) / 9);
+    kelvin.value = round(((f - 32) * 5) / 9 + 273.15);
+    rankine.value = round(f + 459.67);
+    reaumur.value = round((f - 32) / 2.25);
+  };
 
-        let c = (parseFloat(Reaumur.value) * 1.25); 
-        celsius.value = parseFloat(c.toFixed(2));
+  kelvin.oninput = function () {
+    const k = parseFloat(kelvin.value);
+    if (isNaN(k)) { fahrenheit.value = celsius.value = rankine.value = reaumur.value = ''; return; }
+    fahrenheit.value = round((k - 273.15) * (9 / 5) + 32);
+    celsius.value = round(k - 273.15);
+    rankine.value = round(k * 1.8);
+    reaumur.value = round((k - 273.15) / 1.25);
+  };
 
-        let k = (parseFloat(Reaumur.value) * 1.25) + 273.15;
-            kelvin.value = parseFloat(k.toFixed(2));
+  rankine.oninput = function () {
+    const r = parseFloat(rankine.value);
+    if (isNaN(r)) { fahrenheit.value = celsius.value = kelvin.value = reaumur.value = ''; return; }
+    fahrenheit.value = round(r - 459.67);
+    celsius.value = round((r - 491.67) / 1.8);
+    kelvin.value = round(r / 1.8);
+    reaumur.value = round((r - 491.67) / 2.25);
+  };
 
-        let R = (parseFloat(Reaumur.value) * 2.25) + 491.67;
-            Rankine.value = parseFloat(R.toFixed(2));
-    }
+  reaumur.oninput = function () {
+    const re = parseFloat(reaumur.value);
+    if (isNaN(re)) { fahrenheit.value = celsius.value = kelvin.value = rankine.value = ''; return; }
+    fahrenheit.value = round(re * 2.25 + 32);
+    celsius.value = round(re * 1.25);
+    kelvin.value = round(re * 1.25 + 273.15);
+    rankine.value = round(re * 2.25 + 491.67);
+  };
 });

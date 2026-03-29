@@ -2,60 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temperature_Convertion</title>
-    <link rel="icon" href="./assets/image-3.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Convert temperatures between Fahrenheit, Celsius, Kelvin, Rankine, and Réaumur instantly with this beautiful, responsive temperature converter.">
+    <meta name="keywords" content="temperature converter, celsius, fahrenheit, kelvin, rankine, reaumur, unit conversion">
+    <meta name="author" content="Abhinav Rajpati">
+    <meta name="theme-color" content="#0f1923">
+    <title>TempConv — Temperature Converter</title>
+    <link rel="icon" href="./assets/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/index.css">
-    <script src="./styles/index.js"></script>
 </head>
-<body class="background-image">   
-    <div class="header">
-        <img class="logo" src="./assets/image-3.png"/>
-        <div class="auto-group">
-            <div class="text-group">
-                <div class="text">
-                    <a href="https://en.wikipedia.org/wiki/Temperature" target="_blank"><p class="temperature btn">Temperature</p></a>
-                    <a href="./styles/formula.html" target="_blank"><p class="formula btn">Formula</p></a>
-                    <a href="https://www.linkedin.com/in/abhinav-rajpati-551544250/" target="_blank"><p class="about-me btn">About me </p></a>
-                    <a href="mailto:abhinavrajpati3344@gmail.com"><p class="contact-us btn" >Contact us</p></a>
+<body class="background-image">
+
+    <!-- Header / Navigation -->
+    <header class="header" id="site-header">
+        <a href="./" class="logo-link" aria-label="TempConv Home">
+            <img class="logo" src="./assets/logo.png" alt="TempConv Logo" width="56" height="56">
+        </a>
+
+        <!-- Hamburger Toggle (mobile) -->
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
+        <nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+            <a href="https://en.wikipedia.org/wiki/Temperature" target="_blank" rel="noopener noreferrer" class="nav-link" id="nav-temperature">Temperature</a>
+            <a href="./formula.html" target="_blank" class="nav-link" id="nav-formula">Formula</a>
+            <a href="https://www.linkedin.com/in/abhinav-rajpati-551544250/" target="_blank" rel="noopener noreferrer" class="nav-link" id="nav-about">About Me</a>
+            <a href="mailto:abhinavrajpati3344@gmail.com" class="nav-link" id="nav-contact">Contact Us</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" id="converter-section">
+        <h1>Temperature Converter</h1>
+        <p class="subtitle">Instantly convert between 5 temperature scales</p>
+
+        <div class="converter-row" id="converter-row">
+            <div class="col">
+                <label for="fahrenheit">Fahrenheit</label>
+                <div class="input-wrapper">
+                    <span class="unit-badge">°F</span>
+                    <input type="number" id="fahrenheit" placeholder="Enter °F" aria-label="Fahrenheit value">
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="celsius">Celsius</label>
+                <div class="input-wrapper">
+                    <span class="unit-badge">°C</span>
+                    <input type="number" id="celsius" placeholder="Enter °C" aria-label="Celsius value">
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="kelvin">Kelvin</label>
+                <div class="input-wrapper">
+                    <span class="unit-badge">K</span>
+                    <input type="number" id="kelvin" placeholder="Enter K" aria-label="Kelvin value">
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="rankine">Rankine</label>
+                <div class="input-wrapper">
+                    <span class="unit-badge">°R</span>
+                    <input type="number" id="rankine" placeholder="Enter °R" aria-label="Rankine value">
+                </div>
+            </div>
+
+            <div class="col">
+                <label for="reaumur">Réaumur</label>
+                <div class="input-wrapper">
+                    <span class="unit-badge">°Ré</span>
+                    <input type="number" id="reaumur" placeholder="Enter °Ré" aria-label="Réaumur value">
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <div class="container"> 
-        <h1>Temperature_Conversion</h1> <br>
-        <div class="converter-row"> 
-            <div class="col"> 
-                <label>Fahrenheit</label> 
-                <input type="number" 
-                        id="fahrenheit"> 
-            </div> 
-    
-            <div class="col"> 
-                <label>Celsius</label> 
-                <input type="number" 
-                        id="celsius"> 
-            </div> 
-    
-            <div class="col"> 
-                <label>Kelvin</label> 
-                <input type="number" 
-                        id="kelvin"> 
-            </div> 
-            <div class="col"> 
-                <label>Rankine</label> 
-                <input type="number"
-                    id="Rankine"> 
-            </div>
-            <div class="col"> 
-                <label>Reaumur</label> 
-                <input type="number"
-                    id="Reaumur">
-            </div> 
-        </div> 
-        <div class="copyright-445">© 2024 TempConv. All rights reserved. </div> 
-    </div>
-    
+    <!-- Footer -->
+    <footer class="copyright" id="site-footer">
+        © 2024 TempConv. All rights reserved.
+    </footer>
+
+    <script src="./styles/index.js"></script>
 </body>
 </html>
